@@ -12,12 +12,14 @@ const currentImageIndex = ref(0)
 onMounted(async () => {
   try {
     const res = await fetch('http://localhost:3000/api/projects')
-    if (!res.ok) throw new Error('Erreur lors du chargement')
+    if (!res.ok) {
+      throw new Error('Erreur lors du lancement des projets. Vérifiez que le serveur backend est démarré.')
+    }
     const data = await res.json()
     projetsDev.value = data.filter((p: any) => p.type === 'Dev')
     projetsCommunity.value = data.filter((p: any) => p.type === 'Community management')
   } catch (err: any) {
-    error.value = err.message
+    error.value = err.message || 'Impossible de se connecter au serveur backend (port 3000)'
   } finally {
     isLoading.value = false
   }
