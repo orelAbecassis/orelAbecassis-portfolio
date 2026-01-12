@@ -1,8 +1,8 @@
 <template>
   <div class="w-full overflow-x-hidden">
     <HeroSection />
-    <ProjectsSection />
     <AboutSection />
+    <ProjectsSection />
     <ContactSection /> 
     <FooterSection />
   </div>

@@ -1,22 +1,14 @@
 <template>
   <section
     id="about"
-    class="flex flex-col items-center justify-start min-h-screen bg-gradient-to-br from-purple-300 via-pink-200 to-indigo-100 pt-20 px-4"
-  >
+    class="flex flex-col items-center justify-start min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white pt-20 px-4">
     <div class="flex flex-col items-center w-full">
-      <!-- 🖼️ Photo -->
-      <img
-        :src="photoOrel"
-        alt="Orel Abecassis"
-        class="fade rounded-full shadow-lg w-48 h-48 object-cover mb-6 border-4 border-purple-200"
-      />
-
       <!-- 🧍‍♀️ Titre -->
-      <h1 class="fade text-4xl font-bold text-purple-700 mb-4">À propos de moi</h1>
+      <h1 class="fade text-5xl font-bold text-purple-700 mb-6 drop-shadow-sm">À propos de moi</h1>
 
       <!-- 📝 Texte principal -->
-      <div class="fade max-w-6xl w-full text-center text-lg text-gray-700 mb-8">
-        <h2 class="text-2xl font-semibold text-pink-600 mb-4">Qui suis-je&nbsp;?</h2>
+      <div class="fade max-w-6xl w-full text-center text-lg text-gray-800 mb-8">
+        <h2 class="text-3xl font-bold text-purple-600 mb-6">Qui suis-je&nbsp;?</h2>
 
         <p class="mb-2">
           Je suis <span class="font-bold">Orel Abecassis</span>, cheffe de projet et développeuse web passionnée par
@@ -33,7 +25,7 @@
           Passionnée par le <span class="font-bold">DevOps</span>, la <span class="font-bold">gestion de projet</span> et
           le <span class="font-bold">développement web</span>, j'ai choisi de me lancer en
           <span class="font-bold">freelance</span> pour me consacrer pleinement à mes passions :
-          <span class="text-purple-700 font-semibold">créer, automatiser et piloter des projets innovants</span>.
+          <span class="text-purple-600 font-semibold">créer, automatiser et piloter des projets innovants</span>.
         </p>
 
         <p class="mb-2">
@@ -45,7 +37,7 @@
         <div class="my-6">
           <a href="#projects">
             <button
-              class="px-6 py-2 bg-purple-600 text-white rounded-full shadow hover:bg-purple-700 transition font-semibold text-base"
+              class="px-8 py-3 bg-purple-600 text-white rounded-lg shadow-md hover:shadow-lg hover:bg-purple-700 transition-all duration-300 font-semibold text-base"
             >
               Voir mes projets
             </button>
@@ -61,11 +53,11 @@
 
       <!-- 💻 Compétences -->
    <div class="w-full max-w-6xl">
-          <h2 class="text-2xl font-semibold text-pink-600 mb-4">Compétences techniques</h2>
+          <h2 class="text-3xl font-bold text-purple-700 mb-6">Compétences techniques</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <!-- Langages -->
-            <div class="bg-white/70 rounded-xl shadow-lg p-6 flex flex-col items-center border-2 border-purple-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-purple-400 cursor-pointer backdrop-blur-sm">
-              <h3 class="font-semibold text-purple-700 mb-3 text-lg flex items-center gap-2">
+            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center border border-purple-200 transition-all duration-300 hover:shadow-xl hover:border-purple-400 cursor-pointer">
+              <h3 class="font-bold text-purple-700 mb-4 text-xl flex items-center gap-2">
                 <span>Langages</span>
               </h3>
               <div class="flex flex-wrap gap-4 justify-center">
@@ -93,8 +85,8 @@
               </div>
             </div>
             <!-- Outils -->
-            <div class="bg-white/70 rounded-xl shadow-lg p-6 flex flex-col items-center border-2 border-purple-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-purple-400 cursor-pointer backdrop-blur-sm">
-              <h3 class="font-semibold text-purple-700 mb-3 text-lg flex items-center gap-2">
+            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center border border-purple-200 transition-all duration-300 hover:shadow-xl hover:border-purple-400 cursor-pointer">
+              <h3 class="font-bold text-purple-700 mb-4 text-xl flex items-center gap-2">
                 <span>Outils</span>
               </h3>
               <div class="flex flex-wrap gap-4 justify-center">
@@ -143,8 +135,8 @@
             </div>
            
             <!-- Systèmes d'exploitation -->
-            <div class="bg-white/70 rounded-xl shadow-lg p-6 flex flex-col items-center border-2 border-purple-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-purple-400 cursor-pointer backdrop-blur-sm">
-              <h3 class="font-semibold text-purple-700 mb-3 text-lg flex items-center gap-2">
+            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center border border-purple-200 transition-all duration-300 hover:shadow-xl hover:border-purple-400 cursor-pointer">
+              <h3 class="font-bold text-purple-700 mb-4 text-xl flex items-center gap-2">
                 <span>Systèmes d'exploitation</span>
               </h3>
               <div class="flex flex-wrap gap-4 justify-center">
@@ -166,8 +158,8 @@
               </div>
             </div>
             <!-- Bases de données -->
-            <div class="bg-white/70 rounded-xl shadow-lg p-6 flex flex-col items-center border-2 border-purple-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-purple-400 cursor-pointer backdrop-blur-sm">
-              <h3 class="font-semibold text-purple-700 mb-3 text-lg flex items-center gap-2">
+            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center border border-purple-200 transition-all duration-300 hover:shadow-xl hover:border-purple-400 cursor-pointer">
+              <h3 class="font-bold text-purple-700 mb-4 text-xl flex items-center gap-2">
                 <span>Bases de données</span>
               </h3>
               <div class="flex flex-wrap gap-4 justify-center">
@@ -199,8 +191,8 @@
               </div>
             </div>
              <!-- CMS -->
-            <div class="bg-white/70 rounded-xl shadow-lg p-6 flex flex-col items-center border-2 border-purple-200 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-purple-400 cursor-pointer backdrop-blur-sm">
-              <h3 class="font-semibold text-purple-700 mb-3 text-lg flex items-center gap-2">
+            <div class="bg-white rounded-xl shadow-md p-6 flex flex-col items-center border border-purple-200 transition-all duration-300 hover:shadow-xl hover:border-purple-400 cursor-pointer">
+              <h3 class="font-bold text-purple-700 mb-4 text-xl flex items-center gap-2">
                 <span>CMS</span>
               </h3>
               <div class="flex flex-wrap gap-4 justify-center">
@@ -219,32 +211,32 @@
           </div>
 
       <!-- 🧭 Parcours -->
-       <h2 class="text-2xl font-semibold text-indigo-600 mb-4">Parcours</h2>
-          <ol class="relative border-l-2 border-blue-300 ml-4">
-                  <li class="mb-8 ml-6 p-4 rounded-lg transition-all duration-300 hover:bg-white/50 hover:scale-105 cursor-pointer">
-              <span class="absolute -left-3 flex items-center justify-center w-6 h-6 bg-indigo-500 rounded-full ring-8 ring-white text-white">1</span>
-              <h3 class="font-semibold text-lg text-purple-700">Master en entrepreneuriat - Alternance à la Société Générale</h3>
+       <h2 class="text-3xl font-bold text-purple-700 mb-6">Parcours</h2>
+          <ol class="relative border-l-4 border-purple-300 ml-4">
+                  <li class="mb-8 ml-6 p-5 rounded-lg transition-all duration-300 hover:bg-white/80 hover:shadow-md cursor-pointer">
+              <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-purple-600 rounded-full ring-4 ring-white text-white font-bold shadow-md text-sm">1</span>
+              <h3 class="font-bold text-lg text-gray-800">Master en entrepreneuriat - Alternance à la Société Générale</h3>
               <div class="text-gray-600">Ort Montreuil Daniel Mayer - 3IL</div>
               <time class="block mb-1 text-sm font-normal leading-none text-gray-400">2023 - 2025</time>
             </li>
 
-            <li class="mb-8 ml-6 p-4 rounded-lg transition-all duration-300 hover:bg-white/50 hover:scale-105 cursor-pointer">
-              <span class="absolute -left-3 flex items-center justify-center w-6 h-6 bg-purple-500 rounded-full ring-8 ring-white text-white">2</span>
-              <h3 class="font-semibold text-lg text-purple-700">Master en Manager des Solutions Digitals et Data (MSD2) - Alternance à la Société Générale</h3>
+            <li class="mb-8 ml-6 p-5 rounded-lg transition-all duration-300 hover:bg-white/80 hover:shadow-md cursor-pointer">
+              <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-purple-500 rounded-full ring-4 ring-white text-white font-bold shadow-md text-sm">2</span>
+              <h3 class="font-bold text-lg text-gray-800">Master en Manager des Solutions Digitals et Data (MSD2) - Alternance à la Société Générale</h3>
               <div class="text-gray-600">Ort Montreuil Daniel Mayer - 3IL</div>
               <time class="block mb-1 text-sm font-normal leading-none text-gray-400">2023 - 2025</time>
             </li>
 
-            <li class="mb-8 ml-6 p-4 rounded-lg transition-all duration-300 hover:bg-white/50 hover:scale-105 cursor-pointer">
-              <span class="absolute -left-3 flex items-center justify-center w-6 h-6 bg-pink-500 rounded-full ring-8 ring-white text-white">3</span>
-              <h3 class="font-semibold text-lg text-purple-700">Bachelor Conception des systèmes informatique en développement - Alternance dans un cabinet d'expertise comptable Delph Fiduciaire</h3>
+            <li class="mb-8 ml-6 p-5 rounded-lg transition-all duration-300 hover:bg-white/80 hover:shadow-md cursor-pointer">
+              <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-purple-400 rounded-full ring-4 ring-white text-white font-bold shadow-md text-sm">3</span>
+              <h3 class="font-bold text-lg text-gray-800">Bachelor Conception des systèmes informatique en développement - Alternance dans un cabinet d'expertise comptable Delph Fiduciaire</h3>
               <div class="text-gray-600">Ort Montreuil Daniel Mayer</div>
               <time class="block mb-1 text-sm font-normal leading-none text-gray-400">2022 - 2023</time>
             </li>
 
-            <li class="mb-8 ml-6 p-4 rounded-lg transition-all duration-300 hover:bg-white/50 hover:scale-105 cursor-pointer">
-              <span class="absolute -left-3 flex items-center justify-center w-6 h-6 bg-indigo-500 rounded-full ring-8 ring-white text-white">4</span>
-              <h3 class="font-semibold text-lg text-purple-700">BTS Service Informatique aux Organisation (SIO) Option SLAM</h3>
+            <li class="mb-8 ml-6 p-5 rounded-lg transition-all duration-300 hover:bg-white/80 hover:shadow-md cursor-pointer">
+              <span class="absolute -left-4 flex items-center justify-center w-8 h-8 bg-purple-300 rounded-full ring-4 ring-white text-white font-bold shadow-md text-sm">4</span>
+              <h3 class="font-bold text-lg text-gray-800">BTS Service Informatique aux Organisation (SIO) Option SLAM</h3>
               <div class="text-gray-600">Ort Montreuil Daniel Mayer</div>
               <time class="block mb-1 text-sm font-normal leading-none text-gray-400">2020 - 2022</time>
             </li>
@@ -256,7 +248,6 @@
 
 <script setup lang="ts">
 import { onMounted, nextTick } from 'vue'
-import photoOrel from '../Images/photo-orel.jpeg'
 import 'devicon/devicon.min.css'
 
 const parcours = [

@@ -1,19 +1,36 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted, nextTick, computed } from 'vue'
 
-const projetsDev = ref<{ id: string; name: string; image: string; tags: string[]; url: string }[]>([])
-const projetsCommunity = ref<{ id: string; name: string; image: string; tags: string[]; url: string }[]>([])
+// === ÉTAT DU COMPOSANT ===
+const projetsDev = ref<any[]>([])
+const projetsCommunity = ref<any[]>([])
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 const selectedProject = ref<any | null>(null)
 const isModalOpen = ref(false)
 const currentImageIndex = ref(0)
 
+// === PROPRIÉTÉS CALCULÉES ===
+const currentImage = computed(() => {
+  if (selectedProject.value?.images?.length) {
+    return selectedProject.value.images[currentImageIndex.value]
+  }
+  return selectedProject.value?.image || ''
+})
+
+const hasMultipleImages = computed(() => 
+  selectedProject.value?.images?.length > 1
+)
+
+// === CHARGEMENT INITIAL ===
 onMounted(async () => {
+  // 1. Récupération des projets depuis l'API
   try {
     const res = await fetch('http://localhost:3000/api/projects')
-    if (!res.ok) throw new Error('Erreur lors du chargement')
+    if (!res.ok) throw new Error('Serveur backend non accessible sur le port 3000')
+    
     const data = await res.json()
+    // 2. Séparation par type de projet
     projetsDev.value = data.filter((p: any) => p.type === 'Dev')
     projetsCommunity.value = data.filter((p: any) => p.type === 'Community management')
   } catch (err: any) {
@@ -22,30 +39,27 @@ onMounted(async () => {
     isLoading.value = false
   }
 
-  // ✅ Animation au scroll sur les cartes projets
-  await nextTick() // attendre que le DOM soit prêt
-  const elements = document.querySelectorAll('.fade')
+  // 3. Animation d'apparition au scroll
+  await nextTick()
   const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-          observer.unobserve(entry.target) // on arrête d'observer après apparition
-        }
-      })
-    },
+    (entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible')
+        observer.unobserve(entry.target)
+      }
+    }),
     { threshold: 0.15 }
   )
-  elements.forEach((el) => observer.observe(el))
+  document.querySelectorAll('.fade').forEach((el) => observer.observe(el))
 })
 
+// === GESTION DE LA MODALE ===
 const fetchProjectDetails = async (id: string) => {
-  error.value = null;
   try {
     const res = await fetch(`http://localhost:3000/api/projects/${id}`)
     if (!res.ok) throw new Error('Erreur lors du chargement du projet')
-    const data = await res.json()
-    selectedProject.value = data
+    
+    selectedProject.value = await res.json()
     currentImageIndex.value = 0
     isModalOpen.value = true
     document.addEventListener('keydown', handleKeydown)
@@ -61,51 +75,32 @@ const closeModal = () => {
   document.removeEventListener('keydown', handleKeydown)
 }
 
+// === NAVIGATION DANS LES IMAGES ===
 const nextImage = () => {
-  if (selectedProject.value?.images && selectedProject.value.images.length > 0) {
-    currentImageIndex.value = (currentImageIndex.value + 1) % selectedProject.value.images.length
+  const totalImages = selectedProject.value?.images?.length || 0
+  if (totalImages > 1) {
+    currentImageIndex.value = (currentImageIndex.value + 1) % totalImages
   }
 }
 
 const previousImage = () => {
-  if (selectedProject.value?.images && selectedProject.value.images.length > 0) {
+  const totalImages = selectedProject.value?.images?.length || 0
+  if (totalImages > 1) {
     currentImageIndex.value = currentImageIndex.value === 0 
-      ? selectedProject.value.images.length - 1 
+      ? totalImages - 1 
       : currentImageIndex.value - 1
   }
 }
 
-const getCurrentImage = () => {
-  if (selectedProject.value?.images && selectedProject.value.images.length > 0) {
-    return selectedProject.value.images[currentImageIndex.value]
-  }
-  return selectedProject.value?.image || ''
-}
-
-const hasMultipleImages = () => {
-  return selectedProject.value?.images && selectedProject.value.images.length > 1
-}
-
-const getTotalImages = () => {
-  return selectedProject.value?.images?.length || 0
-}
-
+// === NAVIGATION CLAVIER ===
 const handleKeydown = (event: KeyboardEvent) => {
   if (!isModalOpen.value) return
-  switch (event.key) {
-    case 'ArrowLeft':
-      event.preventDefault()
-      previousImage()
-      break
-    case 'ArrowRight':
-      event.preventDefault()
-      nextImage()
-      break
-    case 'Escape':
-      event.preventDefault()
-      closeModal()
-      break
-  }
+  
+  if (event.key === 'ArrowLeft') previousImage()
+  else if (event.key === 'ArrowRight') nextImage()
+  else if (event.key === 'Escape') closeModal()
+  
+  event.preventDefault()
 }
 </script>
 
@@ -190,42 +185,47 @@ const handleKeydown = (event: KeyboardEvent) => {
             </h2>
 
             <div class="relative flex-1 flex items-center justify-center mb-4">
-              <div v-if="getCurrentImage()" class="relative w-full h-full flex items-center justify-center">
+              <!-- Affichage de l'image avec carrousel -->
+              <div v-if="currentImage" class="relative w-full h-full flex items-center justify-center">
+                <!-- Bouton Précédent -->
                 <button
-                  v-if="hasMultipleImages()"
+                  v-if="hasMultipleImages"
                   @click="previousImage"
-                  class="nav-arrow absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110 border-2 border-purple-200"
+                  class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg transition-all hover:scale-110 border-2 border-purple-200"
                 >
                   <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
 
+                <!-- Image principale -->
                 <img
-                  :src="getCurrentImage()"
+                  :src="currentImage"
                   :alt="selectedProject.name"
-                  class="image-transition max-h-80 max-w-full object-contain rounded-lg shadow-lg"
+                  class="max-h-80 max-w-full object-contain rounded-lg shadow-lg transition-all duration-300"
                 />
 
+                <!-- Bouton Suivant -->
                 <button
-                  v-if="hasMultipleImages()"
+                  v-if="hasMultipleImages"
                   @click="nextImage"
-                  class="nav-arrow absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110 border-2 border-purple-200"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg transition-all hover:scale-110 border-2 border-purple-200"
                 >
                   <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
 
+                <!-- Compteur d'images -->
                 <div
-                  v-if="hasMultipleImages()"
-                  class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm"
+                  v-if="hasMultipleImages"
+                  class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm"
                 >
-                  {{ currentImageIndex + 1 }} / {{ getTotalImages() }}
+                  {{ currentImageIndex + 1 }} / {{ selectedProject.images.length }}
                 </div>
               </div>
 
-              <div v-else class="text-gray-400 text-center">Aucune image disponible</div>
+              <div v-else class="text-gray-400">Aucune image disponible</div>
             </div>
 
             <div v-if="selectedProject.description" class="text-gray-700 text-lg mb-4 text-center">
@@ -242,22 +242,31 @@ const handleKeydown = (event: KeyboardEvent) => {
 </template>
 
 <style scoped>
+/* Animation d'apparition au scroll */
 .fade {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
+
 .fade.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
+/* Animation d'ouverture de la modale */
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from { 
+    opacity: 0; 
+    transform: scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: scale(1); 
+  }
 }
-.animate-fadeIn { animation: fadeIn 0.2s ease; }
-.image-transition { transition: all 0.3s ease; }
-.nav-arrow { backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
-.nav-arrow:hover { border-color: rgba(147,51,234,0.3); }
+
+.animate-fadeIn { 
+  animation: fadeIn 0.2s ease; 
+}
 </style>
